@@ -43,7 +43,7 @@ public class JIApplication {
 		frame.setBackground(Color.WHITE);
 		mRenderer.setBackground(Color.WHITE);
 		frame.setLocation(0, 0);
-		frame.setSize(600,600);
+		frame.setSize(620,620);
 		frame.setContentPane(mRenderer);
 		frame.setVisible(true);
 	}

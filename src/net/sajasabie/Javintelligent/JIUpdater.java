@@ -6,7 +6,7 @@ public class JIUpdater implements Runnable{
 	private static Thread clockThread;
 	private long lastUpdateTime;
 	
-	private final int MILLIS_PER_UPDATE = 33;
+	private final int MILLIS_PER_UPDATE = 100;
 	
 	
 	public JIUpdater() {

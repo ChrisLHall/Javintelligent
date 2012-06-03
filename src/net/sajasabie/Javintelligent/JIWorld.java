@@ -47,7 +47,8 @@ public class JIWorld {
 		
 		currentPos[0] = theGen.nextDouble();
 		currentPos[1] = theGen.nextDouble();
-		
+		currentPos[2] = currentPos[0];
+		currentPos[3] = currentPos[1];
 		map[(int)(currentPos[0]*100)][(int)(currentPos[1]*100)] = '+';
 		
 		endPos[0] = theGen.nextDouble();
@@ -93,6 +94,10 @@ public class JIWorld {
 		
 		map[(int)(currentPos[0+offset]*100)][(int)(currentPos[1+offset]*100)] = '+';
 		
+		if(Math.sqrt((currentPos[0+offset]-endPos[0])*(currentPos[0+offset]-endPos[0]) + (currentPos[1+offset]-endPos[1])*(currentPos[1+offset]-endPos[1])) < .0166) {
+			theBot.error = JIErrors.YOUWIN;
+			genWorld(theSeed.nextInt());
+		}
 		
 		return oldDist - Math.sqrt((currentPos[0+offset]-endPos[0])*(currentPos[0+offset]-endPos[0]) + (currentPos[1+offset]-endPos[1])*(currentPos[1+offset]-endPos[1]));
 	}

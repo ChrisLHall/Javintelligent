@@ -1,7 +1,8 @@
 package net.sajasabie.Javintelligent;
 
 import java.util.Random;
-
+import java.awt.geom.Ellipse2D;
+import java.awt.Color;
 
 
 public class JIWorld {
@@ -9,6 +10,7 @@ public class JIWorld {
 	char map[][] = new char[100][100];
 	double currentPos[] = new double[2];
 	double endPos[] = new double[2];
+	JIRenderable goal,me;
 	int turns = 0;
 	int round = 0;
 	Random theSeed = new Random();
@@ -18,6 +20,8 @@ public class JIWorld {
 		Random theSeed = new Random();
 		genWorld(theSeed.nextInt());
 		theBot = new JIObject();
+		goal = new JIRenderable(new Ellipse2D.Double(0,0,20,20), Color.GREEN);
+		me = new JIRenderable(new Ellipse2D.Double(0,0,15,15), Color.RED);
 	}
 	
 	public JIWorld(int seed) {
@@ -25,7 +29,6 @@ public class JIWorld {
 	}
 	
 	public JIWorld(char Fx, char Fy, char Sx, char Sy) {
-		genWorld();
 	}
 	
 	
@@ -51,6 +54,8 @@ public class JIWorld {
 	public void onStep() {
 		theBot.update();
 		theBot.change = move(theBot);
+		goal.setPosition(endPos[0],endPos[1]);
+		me.setPosition(currentPos[0],currentPos[1]);
 	}
 	
 	public double move(JIObject theBot) {

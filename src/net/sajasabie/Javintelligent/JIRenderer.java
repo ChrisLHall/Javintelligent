@@ -1,10 +1,10 @@
 package net.sajasabie.Javintelligent;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.*;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -21,14 +21,19 @@ public class JIRenderer extends JPanel{
 	
 	public JIRenderer() {
 		super();
-		this.testCircle = new Ellipse2D.Double(200, 200, 10, 10);
-		this.testSquare = new Rectangle2D.Double(0,0,600,600);
+		this.testCircle = new Ellipse2D.Double(100, 100, 200, 200);
+		this.testSquare = new Rectangle2D.Double(10,10,590,590);
 	}
 	
-	public void drawWorld(Graphics g) {
+	public void paint(Graphics g) {
 		super.paintComponents(g);
 		Graphics2D g2d = (Graphics2D) g;
+		g2d.setColor(Color.RED);
 		g2d.fill(this.testCircle);
-		g2d.draw(testSquare);
+		g2d.draw(this.testSquare);
+	}
+	
+	public void onStep() {
+		 
 	}
 }

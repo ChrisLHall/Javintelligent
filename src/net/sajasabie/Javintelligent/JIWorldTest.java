@@ -1,4 +1,4 @@
-package net.sajasabie.Javintelligent;
+/*package net.sajasabie.Javintelligent;
 
 
 
@@ -7,4 +7,4 @@ public class JIWorldTest {
 		JIWorld theWorldTest = new JIWorld();
 		System.out.println(theWorldTest);
 	}
-}
+}*/

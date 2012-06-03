@@ -5,6 +5,8 @@ import java.util.Random;
 public class JIObject {
 	public double dP[] = {0.0,0.0};
 	public double change = 0.0;
+	public JIVisionRequest vR = new VisionRequest(Math.PI*2,0.0);
+	
 	public JIErrors error = JIErrors.NONE;
 	Random moveme = new Random();
 	

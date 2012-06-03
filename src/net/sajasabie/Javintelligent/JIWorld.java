@@ -50,7 +50,7 @@ public class JIWorld {
 	
 	public void onStep() {
 		theBot.update();
-		move(theBot);
+		theBot.change = move(theBot);
 	}
 	
 	public double move(JIObject theBot) {
@@ -77,6 +77,7 @@ public class JIWorld {
 		}
 		
 		map[(int)(currentPos[0]*100)][(int)(currentPos[1]*100)] = '+';
+		
 		
 		return oldDist - Math.sqrt((currentPos[0]-endPos[0])*(currentPos[0]-endPos[0]) + (currentPos[1]-endPos[1])*(currentPos[0]-endPos[0]));
 	}

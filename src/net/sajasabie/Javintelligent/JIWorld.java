@@ -57,7 +57,12 @@ public class JIWorld {
 		double Mx = theBot.dP[0]; 
 		double My = theBot.dP[1];
 		System.out.println(Mx + " " + My);
-		if(Mx*Mx < .01*.01 || My*My < .01*.01 || Mx*Mx > 1.0 || My*My > 1.0) return 2.0;
+		
+		
+		if(Mx*Mx < .01*.01 || My*My < .01*.01 || Mx*Mx > 1.0 || My*My > 1.0) {
+			theBot.error = JIErrors.NONE;
+			return 2.0;
+		}
 		double oldDist = Math.sqrt((currentPos[0]-endPos[0])*(currentPos[0]-endPos[0]) + (currentPos[1]-endPos[1])*(currentPos[0]-endPos[0]));
 		
 		

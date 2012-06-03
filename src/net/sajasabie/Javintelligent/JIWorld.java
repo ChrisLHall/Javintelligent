@@ -9,9 +9,15 @@ public class JIWorld {
 	char map[][] = new char[100][100];
 	double currentPos[] = new double[2];
 	double endPos[] = new double[2];
+	int turns = 0;
+	int round = 0;
+	Random theSeed = new Random();
+	JIObject theBot;
 	
 	public JIWorld() {
-		genWorld(0);
+		Random theSeed = new Random();
+		genWorld(theSeed.nextInt());
+		theBot = new JIObject();
 	}
 	
 	public JIWorld(int seed) {
@@ -22,8 +28,12 @@ public class JIWorld {
 
 	}
 	
+	
+	
+	
 	private void genWorld(int seed) {
-		Random theGen = new Random();
+		Random theGen = new Random(seed);
+		System.out.println(seed);
 		//else Random theGen = new Random(seed);
 		
 		currentPos[0] = theGen.nextDouble();
@@ -39,7 +49,8 @@ public class JIWorld {
 	}
 	
 	public void onStep() {
-	
+		theBot.update();
+		move(theBot);
 	}
 	
 	public double move(JIObject theBot) {

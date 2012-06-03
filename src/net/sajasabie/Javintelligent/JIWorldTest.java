@@ -9,14 +9,10 @@ public class JIWorldTest {
 		
 		System.out.println(theWorldTest);
 		
-		MRBot.dP[0] = 0.02;
-		MRBot.dP[1] = 0.02;
-		System.out.println(theWorldTest.move(MRBot));
+		theWorldTest.onStep();
 		System.out.println(theWorldTest);
 		
-		MRBot.dP[0] = -0.02;
-		MRBot.dP[1] = -0.02;
-		System.out.println(theWorldTest.move(MRBot));
+		theWorldTest.onStep();
 		System.out.println(theWorldTest);
 	}
 }

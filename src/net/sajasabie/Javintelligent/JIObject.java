@@ -32,8 +32,16 @@ public class JIObject {
 		this.dP[1] = dY;
 	}
 	
+	public void setChange(double newchange) {
+		this.change = newchange;
+	}
+	
 	public double getChange() {
 		return this.change;
+	}
+	
+	public void setError(JIErrors newerror) {
+		this.error = newerror;
 	}
 	
 	public JIErrors getError(){

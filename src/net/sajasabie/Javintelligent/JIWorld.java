@@ -1,6 +1,9 @@
-
+package net.sajasabie.Javintelligent;
 
 public class JIWorld {
+	
+	
+	
 	public JIWorld() {
 	}
 	

@@ -1,7 +1,6 @@
 package net.sajasabie.Javintelligent;
 
 import java.awt.Color;
-import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.RectangularShape;
 

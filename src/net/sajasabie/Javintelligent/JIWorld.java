@@ -21,7 +21,9 @@ public class JIWorld {
 		genWorld(theSeed.nextInt());
 		theBot = new JIObject();
 		goal = new JIRenderable(new Ellipse2D.Double(0,0,20,20), Color.GREEN);
+		JIApplication.getRenderer().attach(goal);
 		me = new JIRenderable(new Ellipse2D.Double(0,0,15,15), Color.RED);
+		JIApplication.getRenderer().attach(me);
 	}
 	
 	public JIWorld(int seed) {
@@ -54,8 +56,8 @@ public class JIWorld {
 	public void onStep() {
 		theBot.update();
 		theBot.change = move(theBot);
-		goal.setPosition(endPos[0],endPos[1]);
-		me.setPosition(currentPos[0],currentPos[1]);
+		goal.setPosition(endPos[0]*600,endPos[1]*600);
+		me.setPosition(currentPos[0]*600,currentPos[1]*600);
 	}
 	
 	public double move(JIObject theBot) {

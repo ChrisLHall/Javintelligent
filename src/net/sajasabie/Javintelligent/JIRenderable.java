@@ -6,28 +6,52 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.RectangularShape;
 
 public class JIRenderable {
-
-	private double mX, mY;
+	
 	private RectangularShape mShape;
 	private Color mDrawColor;
 	
-	public JIRenderable(double x, double y, RectangularShape pShape, Color pColor){
+	public JIRenderable(RectangularShape pShape, Color pColor){
 		//Creates a new renderable at the given coordinates with the given shape
-		//Shape is an object from java.awt.Shape (default is new Ellipse2D.Double(x, y, 20, 20))
-		//Color is a color from java.awt.Color (default is Color.RED)
-		this.mX = x;
-		this.mY = y;
+		//pShape is an object from java.awt.geom.RectangularShape (default is new Ellipse2D.Double(x, y, 20, 20))
+		//pColor is a color from java.awt.Color (default is Color.RED)
 		this.mShape = pShape;
 		this.mDrawColor = pColor;
 	}
 	
 	public JIRenderable(double x, double y) {
-		this(x, y, new Ellipse2D.Double(x, y, 20, 20), Color.RED);
+		this(new Ellipse2D.Double(x, y, 20, 20), Color.RED);
 	}
 	
 	public void setPosition(double x, double y) {
-		this.mX = x;
-		this.mY = y;
-		this.mShape.setFrame();
+		this.mShape.setFrame(x, y, this.mShape.getWidth(), this.mShape.getHeight());
 	}
+	
+	public void setShape(RectangularShape pShape) {
+		this.mShape = pShape;
+	}
+	
+	public RectangularShape getShape() {
+		return this.mShape;
+	}
+	
+	public Color getDrawColor() {
+		return this.mDrawColor;
+	}
+	
+	public double getX() {
+		return this.mShape.getX();
+	}
+	
+	public double getY() {
+		return this.mShape.getY();
+	}
+	
+	public double getWidth() {
+		return this.mShape.getWidth();
+	}
+	
+	public double getHeight() {
+		return this.mShape.getHeight();
+	}
+	
 }

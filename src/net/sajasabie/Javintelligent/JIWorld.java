@@ -57,8 +57,8 @@ public class JIWorld {
 		endPos[1] = theGen.nextDouble();
 		
 		map[(int)(endPos[0]*100)][(int)(endPos[1]*100)] = '*';
-		ChrisBot.error = JIErrors.YOUWIN;
-		IanBot.error = JIErrors.YOUWIN;
+		if(ChrisBot.error != JIErrors.YOUWIN)ChrisBot.error = JIErrors.YOULOSE;
+		if(IanBot.error != JIErrors.YOUWIN) IanBot.error = JIErrors.YOULOSE;
 		
 	}
 	

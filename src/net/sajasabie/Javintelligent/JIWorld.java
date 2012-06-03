@@ -25,7 +25,7 @@ public class JIWorld {
 	}
 	
 	public JIWorld(char Fx, char Fy, char Sx, char Sy) {
-
+		genWorld();
 	}
 	
 	

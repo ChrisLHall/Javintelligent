@@ -32,6 +32,7 @@ public class IanJIObject extends JIObject {
 			dP[0] = 0;
 			dP[1] = 0;
 			state++;
+			accel = .001;
 		//	speed = maxspeed - accel*5;
 		//	maxspeed = 0;
 		} else if(state == 1) {
@@ -66,6 +67,7 @@ public class IanJIObject extends JIObject {
 			//}
 		} else if(error == JIErrors.TOOFAR) {
 			maxspeed = speed-accel;
+			accel*=.1;
 			state = 0;
 		} else {
 			if(dy < 0) System.out.println("It's up!");

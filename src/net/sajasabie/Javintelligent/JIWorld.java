@@ -57,8 +57,6 @@ public class JIWorld {
 		endPos[1] = theGen.nextDouble();
 		
 		map[(int)(endPos[0]*100)][(int)(endPos[1]*100)] = '*';
-		if(ChrisBot.error != JIErrors.YOUWIN)ChrisBot.error = JIErrors.YOULOSE;
-		 IanBot.error = JIErrors.YOULOSE;
 		
 	}
 	
@@ -71,6 +69,11 @@ public class JIWorld {
 		Ian.setPosition(currentPos[0+2]*600,currentPos[1+2]*600);
 		Chris.setPosition(currentPos[0]*600,currentPos[1]*600);
 		System.out.println("Chris: \t" + score[0] + "\tIan: \t" + score[1]);
+		if(ChrisBot.error == JIErrors.YOUWIN || IanBot.error == JIErrors.YOUWIN) {
+		if(ChrisBot.error != JIErrors.YOUWIN)ChrisBot.error = JIErrors.YOULOSE;
+		 IanBot.error = JIErrors.YOULOSE;
+			genWorld(theSeed.nextInt());
+		}
 	}
 	
 	public double move(JIObject theBot,int offset) {
@@ -102,7 +105,7 @@ public class JIWorld {
 		if(Math.sqrt((currentPos[0+offset]-endPos[0])*(currentPos[0+offset]-endPos[0]) + (currentPos[1+offset]-endPos[1])*(currentPos[1+offset]-endPos[1])) < .0166) {
 			theBot.error = JIErrors.YOUWIN;
 			score[offset/2] +=1;
-			genWorld(theSeed.nextInt());
+			//genWorld(theSeed.nextInt());
 		}
 		
 		return oldDist - Math.sqrt((currentPos[0+offset]-endPos[0])*(currentPos[0+offset]-endPos[0]) + (currentPos[1+offset]-endPos[1])*(currentPos[1+offset]-endPos[1]));

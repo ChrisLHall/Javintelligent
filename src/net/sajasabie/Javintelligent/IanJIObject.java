@@ -11,6 +11,7 @@ public class IanJIObject extends JIObject {
 	double speed = 0.005;
 	double maxspeed = 0;
 	int state = 0;
+	int oobcount = 0;
 	
 	JIErrors lasterrors[] = {JIErrors.NONE,JIErrors.NONE,JIErrors.NONE};
 	int turns = 0;
@@ -24,6 +25,7 @@ public class IanJIObject extends JIObject {
 		if(error == JIErrors.YOUWIN) {
 			state = 0;
 			System.out.println("\r\r\r\r\r\r\r\r\r");
+			oobcount = 0;
 		}
 		if(state == 0) {
 			dP[0] = 0;
@@ -53,6 +55,12 @@ public class IanJIObject extends JIObject {
 			state++;
 		} else if(error == JIErrors.OOB) {
 			state = 0;
+			oobcount++;
+			if(oobcount >= 10) {
+				speed = maxspeed - accel*5;
+				maxspeed = 0;
+				oobcount = 0;
+			}
 		} else if(error == JIErrors.TOOFAR) {
 			maxspeed = speed-accel;
 			state = 0;

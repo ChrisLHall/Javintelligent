@@ -8,22 +8,26 @@ import java.awt.Color;
 public class JIWorld {
 	
 	char map[][] = new char[100][100];
-	double currentPos[] = new double[2];
+	double currentPos[] = new double[4];
 	double endPos[] = new double[2];
-	JIRenderable goal,me;
+	JIRenderable goal,Ian,Chris;
 	int turns = 0;
 	int round = 0;
 	Random theSeed = new Random();
-	JIObject theBot;
+	JIObject IanBot;
+	JIObject ChrisBot;
 	
 	public JIWorld() {
 		Random theSeed = new Random();
 		genWorld(theSeed.nextInt());
-		theBot = new IanJIObject();
+		IanBot = new IanJIObject();
+		ChrisBot = new ChrisJIObject();
 		goal = new JIRenderable(new Ellipse2D.Double(0,0,20,20), Color.GREEN);
 		JIApplication.getRenderer().attach(goal);
-		me = new JIRenderable(new Ellipse2D.Double(0,0,15,15), Color.RED);
-		JIApplication.getRenderer().attach(me);
+		Chris = new JIRenderable(new Ellipse2D.Double(0,0,15,15), Color.RED);
+		JIApplication.getRenderer().attach(Chris);
+		Ian = new JIRenderable(new Ellipse2D.Double(0,0,15,15), Color.YELLOW);
+		JIApplication.getRenderer().attach(Ian);
 	}
 	
 	public JIWorld(int seed) {
@@ -54,13 +58,16 @@ public class JIWorld {
 	}
 	
 	public void onStep() {
-		theBot.update();
-		theBot.change = move(theBot);
+		ChrisBot.update();
+		IanBot.update();
+		ChrisBot.change = move(ChrisBot,0);
+		IanBot.change = move(IanBot,2);
 		goal.setPosition(endPos[0]*600,endPos[1]*600);
-		me.setPosition(currentPos[0]*600,currentPos[1]*600);
+		Ian.setPosition(currentPos[0+2]*600,currentPos[1+2]*600);
+		Chris.setPosition(currentPos[0]*600,currentPos[1]*600);
 	}
 	
-	public double move(JIObject theBot) {
+	public double move(JIObject theBot,int offset) {
 		double Mx = theBot.dP[0]; 
 		double My = theBot.dP[1];
 		System.out.println(Mx*Mx + " " + My*My);
@@ -70,24 +77,24 @@ public class JIWorld {
 			theBot.error = JIErrors.TOOFAR;
 			return 2.0;
 		}
-		double oldDist = Math.sqrt((currentPos[0]-endPos[0])*(currentPos[0]-endPos[0]) + (currentPos[1]-endPos[1])*(currentPos[0]-endPos[0]));
+		double oldDist = Math.sqrt((currentPos[0+offset]-endPos[0])*(currentPos[0+offset]-endPos[0]) + (currentPos[1+offset]-endPos[1])*(currentPos[0+offset]-endPos[0]));
 		
 		
-		map[(int)(currentPos[0]*100)][(int)(currentPos[1]*100)] = 0;
-		currentPos[0] += Mx;
-		currentPos[1] += My;
-		if(currentPos[0] > 1.0 || currentPos[0] < 0.0 || currentPos[1] > 1.0 || currentPos[1] < 0.0) {
-			currentPos[0] -= Mx;
-			currentPos[1] -= My;
+		map[(int)(currentPos[0+offset]*100)][(int)(currentPos[1+offset]*100)] = 0;
+		currentPos[0+offset] += Mx;
+		currentPos[1+offset] += My;
+		if(currentPos[0+offset] > 1.0 || currentPos[0+offset] < 0.0 || currentPos[1+offset] > 1.0 || currentPos[1+offset] < 0.0) {
+			currentPos[0+offset] -= Mx;
+			currentPos[1+offset] -= My;
 			theBot.error = JIErrors.OOB;
-			map[(int)(currentPos[0]*100)][(int)(currentPos[1]*100)] = '+';
+			map[(int)(currentPos[0+offset]*100)][(int)(currentPos[1+offset]*100)] = '+';
 			return 3.0;
 		}
 		
-		map[(int)(currentPos[0]*100)][(int)(currentPos[1]*100)] = '+';
+		map[(int)(currentPos[0+offset]*100)][(int)(currentPos[1+offset]*100)] = '+';
 		
 		
-		return oldDist - Math.sqrt((currentPos[0]-endPos[0])*(currentPos[0]-endPos[0]) + (currentPos[1]-endPos[1])*(currentPos[0]-endPos[0]));
+		return oldDist - Math.sqrt((currentPos[0+offset]-endPos[0])*(currentPos[0+offset]-endPos[0]) + (currentPos[1+offset]-endPos[1])*(currentPos[0+offset]-endPos[0]));
 	}
 	
 	public String toString() {

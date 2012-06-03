@@ -77,7 +77,7 @@ public class JIWorld {
 			theBot.error = JIErrors.TOOFAR;
 			return 2.0;
 		}
-		double oldDist = Math.sqrt((currentPos[0+offset]-endPos[0])*(currentPos[0+offset]-endPos[0]) + (currentPos[1+offset]-endPos[1])*(currentPos[0+offset]-endPos[0]));
+		double oldDist = Math.sqrt((currentPos[0+offset]-endPos[0])*(currentPos[0+offset]-endPos[0]) + (currentPos[1+offset]-endPos[1])*(currentPos[1+offset]-endPos[1]));
 		
 		
 		map[(int)(currentPos[0+offset]*100)][(int)(currentPos[1+offset]*100)] = 0;
@@ -94,7 +94,7 @@ public class JIWorld {
 		map[(int)(currentPos[0+offset]*100)][(int)(currentPos[1+offset]*100)] = '+';
 		
 		
-		return oldDist - Math.sqrt((currentPos[0+offset]-endPos[0])*(currentPos[0+offset]-endPos[0]) + (currentPos[1+offset]-endPos[1])*(currentPos[0+offset]-endPos[0]));
+		return oldDist - Math.sqrt((currentPos[0+offset]-endPos[0])*(currentPos[0+offset]-endPos[0]) + (currentPos[1+offset]-endPos[1])*(currentPos[1+offset]-endPos[1]));
 	}
 	
 	public String toString() {

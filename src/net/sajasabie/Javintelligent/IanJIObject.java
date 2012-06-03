@@ -31,8 +31,8 @@ public class IanJIObject extends JIObject {
 			dP[0] = 0;
 			dP[1] = 0;
 			state++;
-			speed = maxspeed - accel*5;
-			maxspeed = 0;
+		//	speed = maxspeed - accel*5;
+		//	maxspeed = 0;
 		} else if(state == 1) {
 			dP[0] = .003;
 			state++;
@@ -58,11 +58,11 @@ public class IanJIObject extends JIObject {
 		} else if(error == JIErrors.OOB) {
 			state = 0;
 			oobcount++;
-			if(oobcount >= 10) {
-				speed = maxspeed - accel*5;
+			//if(oobcount >= 10) {
+				speed = maxspeed - accel;
 				maxspeed = 0;
 				oobcount = 0;
-			}
+			//}
 		} else if(error == JIErrors.TOOFAR) {
 			maxspeed = speed-accel;
 			state = 0;
@@ -80,7 +80,7 @@ public class IanJIObject extends JIObject {
 			//if(error != JIErrors.TOOFAR && state == 6 && change >= 0) {
 				speed += accel;
 				if(maxspeed != 0) speed = maxspeed;
-				if(change < -.00001) state = 0;
+			//	if(change < -.01) state = 0;
 				dP[1] = Math.sin(angle)*speed*((dy < 0)? -1:1);
 				dP[0] = Math.cos(angle)*speed*((dx < 0)? -1:1);
 				System.out.println("WARPSPEEEEEED");

@@ -9,6 +9,7 @@ public class JIWorld {
 	
 	char map[][] = new char[100][100];
 	double currentPos[] = new double[4];
+	int score[] = new int[2];
 	double endPos[] = new double[2];
 	JIRenderable goal,Ian,Chris;
 	int turns = 0;
@@ -19,9 +20,10 @@ public class JIWorld {
 	
 	public JIWorld() {
 		Random theSeed = new Random();
-		genWorld(theSeed.nextInt());
+		
 		IanBot = new IanJIObject();
 		ChrisBot = new ChrisJIObject();
+		genWorld(theSeed.nextInt());
 		goal = new JIRenderable(new Ellipse2D.Double(0,0,20,20), Color.GREEN);
 		JIApplication.getRenderer().attach(goal);
 		Chris = new JIRenderable(new Ellipse2D.Double(0,0,15,15), Color.RED);
@@ -55,6 +57,8 @@ public class JIWorld {
 		endPos[1] = theGen.nextDouble();
 		
 		map[(int)(endPos[0]*100)][(int)(endPos[1]*100)] = '*';
+		ChrisBot.error = JIErrors.YOUWIN;
+		IanBot.error = JIErrors.YOUWIN;
 		
 	}
 	
@@ -66,6 +70,7 @@ public class JIWorld {
 		goal.setPosition(endPos[0]*600,endPos[1]*600);
 		Ian.setPosition(currentPos[0+2]*600,currentPos[1+2]*600);
 		Chris.setPosition(currentPos[0]*600,currentPos[1]*600);
+		System.out.println("Chris: \t" + score[0] + "\tIan: \t" + score[1]);
 	}
 	
 	public double move(JIObject theBot,int offset) {
@@ -96,6 +101,7 @@ public class JIWorld {
 		
 		if(Math.sqrt((currentPos[0+offset]-endPos[0])*(currentPos[0+offset]-endPos[0]) + (currentPos[1+offset]-endPos[1])*(currentPos[1+offset]-endPos[1])) < .0166) {
 			theBot.error = JIErrors.YOUWIN;
+			score[offset/2] +=1;
 			genWorld(theSeed.nextInt());
 		}
 		
@@ -121,6 +127,8 @@ public class JIWorld {
 		toOut += endPos[1];
 		return toOut;
 	}
+	
+	
 
 }
 

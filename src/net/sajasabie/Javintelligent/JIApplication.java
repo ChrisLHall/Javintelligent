@@ -32,6 +32,7 @@ public class JIApplication {
 	
 	public static void main(String[] args) {
 		JIApplication.initialize();
+		
 		JFrame frame = new JFrame("Javintelligent");
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {

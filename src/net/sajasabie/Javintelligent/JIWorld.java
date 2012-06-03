@@ -2,7 +2,7 @@ package net.sajasabie.Javintelligent;
 
 public class JIWorld {
 	
-	
+	char *map[][] = new char[100][100];
 	
 	public JIWorld() {
 	}

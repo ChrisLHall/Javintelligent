@@ -14,8 +14,8 @@ public class JIObject {
 	}
 	
 	public void update() {
-		dP[0] = moveme.nextDouble()/10;
-		dP[1] = moveme.nextDouble()/10;
+		dP[0] = moveme.nextDouble()/50;
+		dP[1] = moveme.nextDouble()/50;
 	}
 	
 }

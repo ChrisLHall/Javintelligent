@@ -9,18 +9,61 @@ public class ChrisJIObject extends JIObject{
 	private double direction; //direction in radians
 	private double dirChangeFactor;
 	
-	private double changePerStep = 0.003;
-	private boolean foundMaxChange = false;
+	private double changePerStep;
+	private boolean foundCoarseChange;
+	private boolean foundFineChange;
 	
-	private double lastStepChange = 100d;
+	private boolean closingInFlag;
+	private boolean passedTheGoal;
+	private boolean searching;
+	private int exitSearchTimer;
+	
+	private int sucksTimer = 100;
+	
+	private double persistent_accuracy = 50000;
+	private double persistent_accuracy_change = 10000;
+	private boolean just_updated_accuracy = false;
+	private boolean won_last_game = false;
+	
+	private double fastest_discovered_speed = 0;
+	
+	private double lastStepChange;
 	
 	public ChrisJIObject() {
 		super();
+		this.initVariables();
 		//initiate movement in a rightward fashion
-		this.moving = true;
-		this.direction = 0.0d;
-		this.dirChangeFactor = 0.1;
 		this.setDelta(this.changePerStep, 0);
+	}
+	
+	public void initVariables() {
+		if(won_last_game) {
+			persistent_accuracy -= persistent_accuracy_change;
+			just_updated_accuracy = true;
+		} else if(just_updated_accuracy){
+			persistent_accuracy += persistent_accuracy_change*1.05;
+			persistent_accuracy_change *= 0.5;
+		}
+		
+		moving = true;
+		
+		direction = 0.0d; //direction in radians
+		dirChangeFactor = 1;
+		
+		changePerStep = 0.001;
+		foundCoarseChange = false;
+		foundFineChange = false;
+		
+		closingInFlag = false;
+		passedTheGoal = false;
+		searching = false;
+		exitSearchTimer = 20;
+		
+		sucksTimer = 100;
+		
+		won_last_game = false;
+		
+		lastStepChange = 100d;
 	}
 	
 	@Override
@@ -28,36 +71,75 @@ public class ChrisJIObject extends JIObject{
 		//runs every time just before moving
 		//look at results from last time
 		JIErrors temperror = this.getError();
-		//remember that for change, NEGATIVE IS GOOD
+		//remember that for change, POSITIVE IS GOOD
 		double tempfeedback = this.getChange();
-		
+		//System.out.println("ChrisBot: " + tempfeedback);
+		//System.out.println("ChrisBot Telemetry: Direction=" + direction + " , Change factor=" + dirChangeFactor);
+		//System.out.println("Move per step:" + changePerStep);
 		//do all change logic
 		if(temperror == JIErrors.YOUWIN) {
 			System.out.println("Chris' bot hit the exit!");
-			moving = false;
+			won_last_game = true;
+			//assume that a new world was created
+			this.initVariables();
 		} else if(temperror == JIErrors.TOOFAR){
-			changePerStep -= 0.0005;
-			foundMaxChange = true;
+			if(!foundCoarseChange) {
+				changePerStep -= 0.001;
+				foundCoarseChange = true;
+			} else {
+				changePerStep -= 0.00005;
+				if(fastest_discovered_speed >= changePerStep) fastest_discovered_speed = changePerStep;
+				foundFineChange = true;
+				foundCoarseChange = true;
+			}
 		} else if(temperror == JIErrors.OOB){
 			direction += dirChangeFactor;
 		} else if(temperror == JIErrors.NONE){
-			//THE BULK OF THE CODE
-			if(!foundMaxChange) changePerStep += 0.0005;
-			/*if(Math.abs(this.tempfeedback - this.lastStepChange) < 0.001 ) {
-				if()
-			}*/
+			//Start increasing speed if it is headed ~straight towards target
+			if(!foundFineChange && (Math.abs(tempfeedback-changePerStep) < changePerStep/persistent_accuracy || closingInFlag == true)) {
+				//System.out.println("Closing in...");
+				closingInFlag = true;
+				if(foundCoarseChange == false && passedTheGoal == false) changePerStep += 0.001;
+				else if(foundFineChange == false && passedTheGoal == false) changePerStep += .00005;
+				dirChangeFactor = 0;
+			}
+			if(closingInFlag && changePerStep < fastest_discovered_speed) changePerStep = fastest_discovered_speed;
+			if(foundFineChange && fastest_discovered_speed < changePerStep) fastest_discovered_speed = changePerStep;
+			//turn around and turn slower if change increased (bad)
+			if(tempfeedback < lastStepChange) {
+				dirChangeFactor *= -0.75;
+			}
+			if (tempfeedback < 0) {
+				//if change is negative, go the other way
+				dirChangeFactor *= -1;
+				direction += Math.PI;
+				if(closingInFlag) {
+					passedTheGoal = true;
+					searching = true;
+				}
+			}
+			if (passedTheGoal) {
+				passedTheGoal = false;
+				changePerStep /= 3;
+				dirChangeFactor = 0;
+			}
+			if (searching) exitSearchTimer -= 1;
+			direction += dirChangeFactor;
 		} else {
 			changePerStep += 0.0005;
 			System.out.println("Chris' bot was told that it moved too shortly.");
 		}
 		while(this.direction > 2*Math.PI) this.direction -= 2*Math.PI;
-		
+		sucksTimer -= 1;
+		if(sucksTimer == 0) initVariables();
 		//do the actual change
-		if(this.moving){
+		if(moving == true){
 			this.setDelta(this.changePerStep*Math.cos(this.direction), -this.changePerStep*Math.sin(this.direction));
-		}else{
+		}else if(moving == false){
 			this.setDelta(0, 0);
 		}
+		
+		if(exitSearchTimer <= 0) this.initVariables();
 		
 		this.lastStepChange = tempfeedback;
 	}

@@ -50,7 +50,7 @@ public class JIWorld {
 	
 	public void onStep() {
 		theBot.update();
-		move(theBot);
+		theBot.change = move(theBot);
 	}
 	
 	public double move(JIObject theBot) {

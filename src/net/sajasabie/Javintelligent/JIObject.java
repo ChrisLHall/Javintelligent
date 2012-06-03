@@ -4,8 +4,7 @@ import java.util.Random;
 
 public class JIObject {
 	public double dP[] = {0.0,0.0};
-	public enum Errors {TOOFAR,TOOSHORT,OUTOFBOUNDS,NONE,YOUWIN};
-	public Errors error = Errors.NONE;
+	public JIErrors error = JIErrors.NONE;
 	Random moveme = new Random();
 	
 	
@@ -14,8 +13,8 @@ public class JIObject {
 	}
 	
 	public void update() {
-		dP[0] = moveme.nextDouble();
-		dP[1] = moveme.nextDouble();
+		dP[0] = moveme.nextDouble()/50;
+		dP[1] = moveme.nextDouble()/50;
 	}
 	
 }

@@ -19,5 +19,25 @@ public class JIObject {
 		System.out.println(error);
 	}
 	
+	public double getDX() {
+		return this.dP[0];
+	}
+	
+	public double getDY() {
+		return this.dP[1];
+	}
+	
+	public void setDelta(double dX, double dY) {
+		this.dP[0] = dX;
+		this.dP[1] = dY;
+	}
+	
+	public double getChange() {
+		return this.change;
+	}
+	
+	public JIErrors getError(){
+		return this.error;
+	}
 
 }

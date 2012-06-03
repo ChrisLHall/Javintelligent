@@ -12,14 +12,20 @@ public class JIApplication {
 	
 	public static JIRenderer gRenderer;
 	public static JIUpdater gUpdater;
+	public static JIWorld gWorld;
 	
 	public static void initialize() {
 		gRenderer = new JIRenderer();
 		gUpdater = new JIUpdater();
+		gWorld = new JIWorld();
 	}
 	
 	public static void updateAll(long millisSinceLastUpdate) {
-		gRenderer.onStep();
+		gWorld.onStep();
+	}
+	
+	public static JIRenderer getRenderer() {
+		return gRenderer;
 	}
 	
 	public static void main(String[] args) {

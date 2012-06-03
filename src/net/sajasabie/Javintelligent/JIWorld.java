@@ -7,131 +7,90 @@ import java.awt.Color;
 
 public class JIWorld {
 	
-	char map[][] = new char[100][100];
-	double currentPos[] = new double[4];
 	int score[] = new int[2];
-	double endPos[] = new double[2];
-	JIRenderable goal,Ian,Chris;
+	double goalX, goalY;
+	JIRenderable goal;
+	JIObjectHolder IanBot, ChrisBot;
 	int turns = 0;
 	int round = 0;
-	Random theSeed = new Random();
-	JIObject IanBot;
-	JIObject ChrisBot;
+	Random theGen = new Random();
 	
 	public JIWorld() {
-		Random theSeed = new Random();
 		
-		IanBot = new IanJIObject();
-		ChrisBot = new ChrisJIObject();
-		genWorld(theSeed.nextInt());
+		IanBot = new JIObjectHolder(new IanJIObject(), new JIRenderable(new Ellipse2D.Double(0,0,15,15), Color.YELLOW));
+		ChrisBot = new JIObjectHolder(new ChrisJIObject(), new JIRenderable(new Ellipse2D.Double(0,0,15,15), Color.RED));
 		goal = new JIRenderable(new Ellipse2D.Double(0,0,20,20), Color.GREEN);
 		JIApplication.getRenderer().attach(goal);
-		Chris = new JIRenderable(new Ellipse2D.Double(0,0,15,15), Color.RED);
-		JIApplication.getRenderer().attach(Chris);
-		Ian = new JIRenderable(new Ellipse2D.Double(0,0,15,15), Color.YELLOW);
-		JIApplication.getRenderer().attach(Ian);
+		genWorld(theGen.nextInt());
+		
 	}
 	
 	public JIWorld(int seed) {
-	
+		this();
+		theGen = new Random(seed);
 	}
 	
 	public JIWorld(char Fx, char Fy, char Sx, char Sy) {
+		this();
 	}
 	
 	
 	
 	
 	private void genWorld(int seed) {
-		Random theGen = new Random(seed);
 		System.out.println(seed);
 		//else Random theGen = new Random(seed);
-		
-		currentPos[0] = theGen.nextDouble();
-		currentPos[1] = theGen.nextDouble();
-		currentPos[2] = currentPos[0];
-		currentPos[3] = currentPos[1];
-		map[(int)(currentPos[0]*100)][(int)(currentPos[1]*100)] = '+';
-		
-		endPos[0] = theGen.nextDouble();
-		endPos[1] = theGen.nextDouble();
-		
-		map[(int)(endPos[0]*100)][(int)(endPos[1]*100)] = '*';
-		
+		double startx = theGen.nextDouble();
+		double starty = theGen.nextDouble();
+		IanBot.setPosition(startx, starty);
+		ChrisBot.setPosition(startx, starty);
+		goalX = theGen.nextDouble();
+		goalY = theGen.nextDouble();
+		goal.setPosition(goalX*600, goalY*600);
 	}
 	
 	public void onStep() {
-		ChrisBot.update();
-		IanBot.update();
-		ChrisBot.change = move(ChrisBot,0);
-		IanBot.change = move(IanBot,2);
-		goal.setPosition(endPos[0]*600,endPos[1]*600);
-		Ian.setPosition(currentPos[0+2]*600,currentPos[1+2]*600);
-		Chris.setPosition(currentPos[0]*600,currentPos[1]*600);
+		ChrisBot.onMoveUpdate();
+		IanBot.onMoveUpdate();
+		this.move(ChrisBot, 0);
+		this.move(IanBot, 2);
+		ChrisBot.onRenderableUpdate();
+		IanBot.onRenderableUpdate();
 		System.out.println("Chris: \t" + score[0] + "\tIan: \t" + score[1]);
-		if(ChrisBot.error == JIErrors.YOUWIN || IanBot.error == JIErrors.YOUWIN) {
-		if(ChrisBot.error != JIErrors.YOUWIN)ChrisBot.error = JIErrors.YOULOSE;
-		 IanBot.error = JIErrors.YOULOSE;
-			genWorld(theSeed.nextInt());
+		if(ChrisBot.getObject().getError() == JIErrors.YOUWIN || IanBot.getObject().getError() == JIErrors.YOUWIN) {
+			genWorld(theGen.nextInt());
 		}
 	}
 	
-	public double move(JIObject theBot,int offset) {
-		double Mx = theBot.dP[0]; 
-		double My = theBot.dP[1];
+	public void move(JIObjectHolder theBot, int offset) {
+		double Mx = theBot.getObject().getDX(); 
+		double My = theBot.getObject().getDY();
 		System.out.println(Mx*Mx + " " + My*My);
-		theBot.error = JIErrors.NONE;
+		theBot.getObject().setError(JIErrors.NONE);
 		
-		if(Mx*Mx > .005 || My*My > .005) {
-			theBot.error = JIErrors.TOOFAR;
-			return 2.0;
+		if(Mx*Mx + My*My > .005) {
+			theBot.getObject().setError(JIErrors.TOOFAR);
+			return;
 		}
-		double oldDist = Math.sqrt((currentPos[0+offset]-endPos[0])*(currentPos[0+offset]-endPos[0]) + (currentPos[1+offset]-endPos[1])*(currentPos[1+offset]-endPos[1]));
+		double oldDist = Math.sqrt((theBot.getX()-goalX)*(theBot.getX()-goalX) + (theBot.getY()-goalY)*(theBot.getY()-goalY));
 		
-		
-		map[(int)(currentPos[0+offset]*100)][(int)(currentPos[1+offset]*100)] = 0;
-		currentPos[0+offset] += Mx;
-		currentPos[1+offset] += My;
-		if(currentPos[0+offset] > 1.0 || currentPos[0+offset] < 0.0 || currentPos[1+offset] > 1.0 || currentPos[1+offset] < 0.0) {
-			currentPos[0+offset] -= Mx;
-			currentPos[1+offset] -= My;
-			theBot.error = JIErrors.OOB;
-			map[(int)(currentPos[0+offset]*100)][(int)(currentPos[1+offset]*100)] = '+';
-			return 3.0;
+		if(theBot.getX() + Mx > 1.0 || theBot.getX() + Mx < 0.0 || theBot.getY() + My > 1.0 || theBot.getY() + My < 0.0) {
+			theBot.getObject().setError(JIErrors.OOB);
+			return;
+		} else {
+			theBot.setPosition(theBot.getX() + Mx, theBot.getY() + My);
 		}
 		
-		map[(int)(currentPos[0+offset]*100)][(int)(currentPos[1+offset]*100)] = '+';
-		
-		if(Math.sqrt((currentPos[0+offset]-endPos[0])*(currentPos[0+offset]-endPos[0]) + (currentPos[1+offset]-endPos[1])*(currentPos[1+offset]-endPos[1])) < .0166) {
-			theBot.error = JIErrors.YOUWIN;
+		if(Math.sqrt((theBot.getX()-goalX)*(theBot.getX()-goalX) + (theBot.getY()-goalY)*(theBot.getY()-goalY)) < .0166) {
+			IanBot.getObject().setError(JIErrors.YOULOSE);
+			ChrisBot.getObject().setError(JIErrors.YOULOSE);
+			theBot.getObject().setError(JIErrors.YOUWIN);
 			score[offset/2] +=1;
 			//genWorld(theSeed.nextInt());
 		}
 		
-		return oldDist - Math.sqrt((currentPos[0+offset]-endPos[0])*(currentPos[0+offset]-endPos[0]) + (currentPos[1+offset]-endPos[1])*(currentPos[1+offset]-endPos[1]));
+		theBot.getObject().setChange(oldDist - Math.sqrt((theBot.getX()-goalX)*(theBot.getX()-goalX) + (theBot.getY()-goalY)*(theBot.getY()-goalY)));
 	}
-	
-	public String toString() {
-		String toOut = "";
-		for(int i = 0; i < 100; i++) {
-			for(int j = 0;j<100;j++) {
-				if(map[i][j] != 0)toOut += map[i][j];
-				else toOut += '-';
-			}
-			toOut += "\r";
-		}
-		toOut += "Current position:\r\t";
-		toOut += currentPos[0];
-		toOut += "\r\t";
-		toOut += currentPos[1];
-		toOut += "\rGoal:\r\t";
-		toOut += endPos[0];
-		toOut += "\r\t";
-		toOut += endPos[1];
-		return toOut;
-	}
-	
-	
 
 }
 

@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.*;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -18,6 +20,8 @@ public class JIRenderer extends JPanel{
 	
 	private Ellipse2D.Double testCircle;
 	private Rectangle2D.Double testSquare;
+	
+	private List<JIRenderable> gRenderableList = new LinkedList<JIRenderable>();
 	
 	public JIRenderer() {
 		super();
@@ -33,7 +37,7 @@ public class JIRenderer extends JPanel{
 		g2d.draw(this.testSquare);
 	}
 	
-	public void onStep() {
-		 
+	public void attach(JIRenderable child) {
+		this.gRenderableList.add(child);
 	}
 }

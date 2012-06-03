@@ -17,7 +17,7 @@ public class IanEnemyJIObject extends JIObject {
 	JIErrors lasterrors[] = {JIErrors.NONE,JIErrors.NONE,JIErrors.NONE};
 	int turns = 0;
 	
-	public IanJIObject() {
+	public IanEnemyJIObject() {
 		super();
 	}
 	

@@ -6,4 +6,5 @@ public class JIGlobals {
 	public double maxSpeed = 0.005;
 	public double vWidth = 600;
 	public double vHeight = 600;
+	public double viewDistance = 0.05;
 }

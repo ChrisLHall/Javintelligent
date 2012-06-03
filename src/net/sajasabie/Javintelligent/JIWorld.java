@@ -1,6 +1,7 @@
+package net.sajasabie.Javintelligent;
+
 import java.util.Random;
 
-package net.sajasabie.Javintelligent;
 
 
 
@@ -9,7 +10,7 @@ public class JIWorld {
 	char map[][] = new char[100][100];
 	
 	public JIWorld() {
-		genWorld();
+		genWorld(0);
 	}
 	
 	public JIWorld(int seed) {
@@ -20,17 +21,17 @@ public class JIWorld {
 
 	}
 	
-	private void genWorld(int seed = 0) {
-		if(seed == 0) Random theGen = new Random();
-		else Random theGen = new Random(seed);
+	private void genWorld(int seed) {
+		Random theGen = new Random();
+		//else Random theGen = new Random(seed);
 		
-		char x = (char)theGen.nextInt(100);
-		char y = (char)theGen.nextInt(100);
+		int x = theGen.nextInt(100);
+		int y = theGen.nextInt(100);
 		
 		map[x][y] = '+';
 		
-		char x = (char)theGen.nextInt(100);
-		char y = (char)theGen.nextInt(100);
+		x = theGen.nextInt(100);
+		y = theGen.nextInt(100);
 		
 		map[x][y] = '*';
 		
@@ -40,9 +41,10 @@ public class JIWorld {
 		String toOut = "";
 		for(int i = 0; i < 100; i++) {
 			for(int j = 0;j<100;j++) {
-				toOut += map[i][j];
+				if(map[i][j] != 0)toOut += map[i][j];
+				else toOut += '-';
 			}
-			toOut += "\r\n";
+			toOut += "\r";
 		}
 		return toOut;
 	}

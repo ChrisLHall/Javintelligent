@@ -18,14 +18,14 @@ public class ChrisJIObject extends JIObject{
 	private boolean searching;
 	private int exitSearchTimer;
 	
-	private int sucksTimer = 100;
+	private int sucksTimer = 150;
 	
 	private double persistent_accuracy = 50000;
 	private double persistent_accuracy_change = 10000;
 	private boolean just_updated_accuracy = false;
 	private boolean won_last_game = false;
 	
-	private double fastest_discovered_speed = 0;
+	private double fastest_discovered_speed = 0.1;
 	
 	private double lastStepChange;
 	
@@ -48,18 +48,18 @@ public class ChrisJIObject extends JIObject{
 		moving = true;
 		
 		direction = 0.0d; //direction in radians
-		dirChangeFactor = 1;
+		dirChangeFactor = 2;
 		
-		changePerStep = 0.001;
+		changePerStep = 0.008;
 		foundCoarseChange = false;
 		foundFineChange = false;
 		
 		closingInFlag = false;
 		passedTheGoal = false;
 		searching = false;
-		exitSearchTimer = 20;
+		exitSearchTimer = 10;
 		
-		sucksTimer = 100;
+		sucksTimer = 150;
 		
 		won_last_game = false;
 		
@@ -87,27 +87,27 @@ public class ChrisJIObject extends JIObject{
 				changePerStep -= 0.001;
 				foundCoarseChange = true;
 			} else {
-				changePerStep -= 0.00005;
+				changePerStep -= 0.001;
 				if(fastest_discovered_speed >= changePerStep) fastest_discovered_speed = changePerStep;
 				foundFineChange = true;
 				foundCoarseChange = true;
 			}
+			System.out.println("TOOFAR*************************************************" + changePerStep);
 		} else if(temperror == JIErrors.OOB){
-			direction += dirChangeFactor;
+			searching = true;
+			changePerStep /= 2;
 		} else if(temperror == JIErrors.NONE){
 			//Start increasing speed if it is headed ~straight towards target
-			if(!foundFineChange && (Math.abs(tempfeedback-changePerStep) < changePerStep/persistent_accuracy || closingInFlag == true)) {
+			if(Math.abs(tempfeedback-changePerStep) < changePerStep/persistent_accuracy || closingInFlag == true) {
 				//System.out.println("Closing in...");
 				closingInFlag = true;
-				if(foundCoarseChange == false && passedTheGoal == false) changePerStep += 0.001;
-				else if(foundFineChange == false && passedTheGoal == false) changePerStep += .00005;
+				if(!searching) changePerStep = fastest_discovered_speed;
 				dirChangeFactor = 0;
 			}
-			if(closingInFlag && changePerStep < fastest_discovered_speed) changePerStep = fastest_discovered_speed;
-			if(foundFineChange && fastest_discovered_speed < changePerStep) fastest_discovered_speed = changePerStep;
+			if(closingInFlag && !searching) changePerStep = fastest_discovered_speed;
 			//turn around and turn slower if change increased (bad)
 			if(tempfeedback < lastStepChange) {
-				dirChangeFactor *= -0.75;
+				dirChangeFactor *= -0.6;
 			}
 			if (tempfeedback < 0) {
 				//if change is negative, go the other way
@@ -131,7 +131,8 @@ public class ChrisJIObject extends JIObject{
 		}
 		while(this.direction > 2*Math.PI) this.direction -= 2*Math.PI;
 		sucksTimer -= 1;
-		if(sucksTimer == 0) initVariables();
+		if(sucksTimer <= 0) initVariables();
+		if(exitSearchTimer <= 0) initVariables();
 		//do the actual change
 		if(moving == true){
 			this.setDelta(this.changePerStep*Math.cos(this.direction), -this.changePerStep*Math.sin(this.direction));

@@ -19,7 +19,7 @@ public class JIWorld {
 	public JIWorld() {
 		Random theSeed = new Random();
 		genWorld(theSeed.nextInt());
-		theBot = new JIObject();
+		theBot = new IanJIObject();
 		goal = new JIRenderable(new Ellipse2D.Double(0,0,20,20), Color.GREEN);
 		JIApplication.getRenderer().attach(goal);
 		me = new JIRenderable(new Ellipse2D.Double(0,0,15,15), Color.RED);

@@ -17,8 +17,6 @@ public class IanJIObject extends JIObject {
 		super();
 	}
 	
-	
-	
 }
 
 

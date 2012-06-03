@@ -82,6 +82,9 @@ public class ChrisJIObject extends JIObject{
 			won_last_game = true;
 			//assume that a new world was created
 			this.initVariables();
+		} else if(temperror == JIErrors.YOULOSE) {
+			won_last_game = false;
+			this.initVariables();
 		} else if(temperror == JIErrors.TOOFAR){
 			if(!foundCoarseChange) {
 				changePerStep -= 0.001;

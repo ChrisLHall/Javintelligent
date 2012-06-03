@@ -22,6 +22,7 @@ public class IanJIObject extends JIObject {
 	
 	@Override
 	public void update() {
+		System.out.println(error);
 		if(error == JIErrors.YOUWIN || error == JIErrors.YOULOSE) {
 			state = 0;
 			System.out.println("\r\r\r\r\r\r\r\r\r");

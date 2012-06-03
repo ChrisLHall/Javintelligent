@@ -58,7 +58,7 @@ public class JIWorld {
 		
 		map[(int)(endPos[0]*100)][(int)(endPos[1]*100)] = '*';
 		if(ChrisBot.error != JIErrors.YOUWIN)ChrisBot.error = JIErrors.YOULOSE;
-		if(IanBot.error != JIErrors.YOUWIN) IanBot.error = JIErrors.YOULOSE;
+		 IanBot.error = JIErrors.YOULOSE;
 		
 	}
 	

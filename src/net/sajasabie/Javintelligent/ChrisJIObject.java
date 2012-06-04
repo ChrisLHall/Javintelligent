@@ -20,6 +20,7 @@ public class ChrisJIObject extends JIObject{
 	
 	private int sucksTimer = 150;
 	
+	
 	private double persistent_accuracy = 50000;
 	private double persistent_accuracy_change = 10000;
 	private boolean just_updated_accuracy = false;
@@ -32,6 +33,7 @@ public class ChrisJIObject extends JIObject{
 	public ChrisJIObject() {
 		super();
 		this.initVariables();
+		objectType = JIVisionElements.PLAYER;
 		//initiate movement in a rightward fashion
 		this.setDelta(this.changePerStep, 0);
 	}

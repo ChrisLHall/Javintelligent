@@ -2,7 +2,7 @@ package net.sajasabie.Javintelligent;
 
 import java.util.Random;
 
-public class JIObject {
+public class JIObject implements IBaseObject{
 	public double dP[] = {0.0,0.0};
 	public double change = 0.0;
 	public JIVisionRequest vR = new JIVisionRequest(Math.PI*2,0.0);
@@ -15,6 +15,7 @@ public class JIObject {
 		
 	}
 	
+	@Override
 	public void update() {
 		dP[0] = (moveme.nextDouble()-.5)/2;
 		dP[1] = (moveme.nextDouble()-.5)/2;

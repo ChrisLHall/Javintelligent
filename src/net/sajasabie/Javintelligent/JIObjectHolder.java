@@ -1,12 +1,12 @@
 package net.sajasabie.Javintelligent;
 
 public class JIObjectHolder {
-	public IBaseObject mObject;
+	public JIObject mObject;
 	public JIRenderable mRenderable;
 	public double mX = 0;
 	public double mY = 0;
 	
-	public JIObjectHolder(IBaseObject contents ,  JIRenderable contentRenderable) {
+	public JIObjectHolder(JIObject contents ,  JIRenderable contentRenderable) {
 		this.mObject = contents;
 		this.mRenderable = contentRenderable;
 		if(this.mRenderable != null) JIApplication.getRenderer().attach(this.mRenderable);
@@ -41,7 +41,7 @@ public class JIObjectHolder {
 		return this.mY;
 	}
 	
-	public IBaseObject getObject() {
+	public JIObject getObject() {
 		return this.mObject;
 	}
 	

@@ -17,7 +17,7 @@ public class JIWorld extends JIWorldBase{
 	
 	public JIWorld() {
 		super();
-		IanBot = new JIObjectHolder(new IanJIObject(), new JIRenderable(new Ellipse2D.Double(0,0,15,15), Color.YELLOW));
+		IanBot = new JIObjectHolder(new IanEnemyJIObject(), new JIRenderable(new Ellipse2D.Double(0,0,15,15), Color.YELLOW));
 		this.mObjectHolders.add(IanBot);
 		ChrisBot = new JIObjectHolder(new ChrisJIObject(), new JIRenderable(new Ellipse2D.Double(0,0,15,15), Color.RED));
 		this.mObjectHolders.add(ChrisBot);
@@ -48,6 +48,7 @@ public class JIWorld extends JIWorldBase{
 		if(ChrisBot.getObject().getError() == JIErrors.YOUWIN || IanBot.getObject().getError() == JIErrors.YOUWIN) {
 			genWorld(theGen.nextInt());
 		}
+		JIVision testme = new JIVision(mObjectHolders);
 	}
 	
 	@Override

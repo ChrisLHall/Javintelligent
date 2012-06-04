@@ -1,6 +1,6 @@
 package net.sajasabie.Javintelligent;
 
-public class IanEnemyJIObject extends JIObject {
+public class GoalJIObject extends JIObject {
 	
 	double lastchanges[] = {0,0,0,0,0,0};
 	double lastdeltas[] = {0,0,0};
@@ -9,7 +9,7 @@ public class IanEnemyJIObject extends JIObject {
 	double dx = 0.0;
 	double dy = 0.0;
 	double accel = 0.0005;
-	double speed = 0.01;
+	double speed = 0.005;
 	double maxspeed = 0;
 	int state = 0;
 	int oobcount = 0;
@@ -18,15 +18,15 @@ public class IanEnemyJIObject extends JIObject {
 	JIErrors lasterrors[] = {JIErrors.NONE,JIErrors.NONE,JIErrors.NONE};
 	int turns = 0;
 	
-	public IanEnemyJIObject() {
+	public GoalJIObject() {
 		super();
-		objectType = JIVisionElements.ENEMY;
+		objectType = JIVisionElements.GOAL;
 	}
 	
 	@Override
 	public void update() {
 		int i = 0;
-		while(vR.viewArray[i] != JIVisionElements.PLAYER && i < 9) {
+		while(vR.viewArray[i] != JIVisionElements.ENEMY && i < 9) {
 			i++;
 		}
 		System.out.println("STUFF" + i);

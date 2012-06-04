@@ -48,9 +48,9 @@ public class ChrisJIObject extends JIObject{
 		moving = true;
 		
 		direction = 0.0d; //direction in radians
-		dirChangeFactor = 2;
+		dirChangeFactor = 1.5;
 		
-		changePerStep = 0.008;
+		changePerStep = 0.012;
 		foundCoarseChange = false;
 		foundFineChange = false;
 		
@@ -110,7 +110,7 @@ public class ChrisJIObject extends JIObject{
 			if(closingInFlag && !searching) changePerStep = fastest_discovered_speed;
 			//turn around and turn slower if change increased (bad)
 			if(tempfeedback < lastStepChange) {
-				dirChangeFactor *= -0.6;
+				dirChangeFactor *= -0.25;
 			}
 			if (tempfeedback < 0) {
 				//if change is negative, go the other way

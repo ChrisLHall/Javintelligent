@@ -34,8 +34,10 @@ public class JIRenderer extends JPanel{
 		g2d.draw(boundingrect);
 		//render all of the JIRenderables currently attached to the screen
 		for(JIRenderable renderableObject : this.mRenderableList) {
-			g2d.setColor(renderableObject.getDrawColor());
-			g2d.fill(renderableObject.getShape());
+			if(renderableObject.isVisible()) {
+				g2d.setColor(renderableObject.getDrawColor());
+				g2d.fill(renderableObject.getShape());
+			}
 		}
 	}
 	

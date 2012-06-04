@@ -8,6 +8,7 @@ public class JIRenderable {
 	
 	private RectangularShape mShape;
 	private Color mDrawColor;
+	private boolean visible;
 	
 	public JIRenderable(RectangularShape pShape, Color pColor){
 		//Creates a new renderable at the given coordinates with the given shape
@@ -15,6 +16,7 @@ public class JIRenderable {
 		//pColor is a color from java.awt.Color (default is Color.RED)
 		this.mShape = pShape;
 		this.mDrawColor = pColor;
+		this.visible = true;
 	}
 	
 	public JIRenderable(double x, double y) {
@@ -51,6 +53,14 @@ public class JIRenderable {
 	
 	public double getHeight() {
 		return this.mShape.getHeight();
+	}
+	
+	public void setVisible(boolean vis) {
+		this.visible = vis;
+	}
+	
+	public boolean isVisible() {
+		return this.visible;
 	}
 	
 }
